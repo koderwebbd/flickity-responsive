@@ -1,0 +1,78 @@
+<script type="module" src="{{ 'flickity.min.js' | asset_url }}"></script>
+<script src="{{ 'flickity-responsive.min.js' | asset_url }}"></script>
+{{- 'flickity.min.css' | asset_url | stylesheet_tag: preload: true -}}
+    {{- 'custom-style.css' | asset_url | stylesheet_tag: preload: true -}}
+     theme.CollectionListNew = (function() {
+  	 
+  
+    function CollectionListNew(container) {
+      this.container = container;
+      this.sectionId = this.container.getAttribute('data-section-id');
+      this.init();
+    }
+  
+    CollectionListNew.prototype = Object.assign({}, CollectionListNew.prototype, {
+      init: function() {
+        var slider = this.container.querySelector('scroll-carousel-new');
+
+	    if (slider) {
+	    
+	    	var autoplay = slider.getAttribute('autoplay'),
+		      	autoplaytimeout  = slider.getAttribute('autoplaytimeout'),
+		      	desktopCol  = slider.getAttribute('desktop-col')*1,
+		      	MobileCol  = slider.getAttribute('mobile-col')*1,
+		      	arrow  = slider.getAttribute('enableArrow').toLowerCase(),
+		      	bullet  = slider.getAttribute('enableBullet').toLowerCase();
+
+		      	arrow = (arrow === "false") ? false : true;
+		      	bullet = (bullet === "false") ? false : true;
+          		MobileCol = MobileCol - 1
+       
+          	var carousel = new FlickityResponsive(slider, {
+          		//desktop
+          		wrapAround: false,
+				contain: true,
+		        cellAlign: "left",
+		        freeScroll: false,
+		        prevNextButtons: arrow,
+		        pageDots: bullet,
+		        groupCells: desktopCol,
+	      		destroy: false,
+			    responsive: [
+			    	{
+			            breakpoint: 1149,
+			            settings: {
+			                destroy: false,
+			                wrapAround: false,
+						  	contain: true,
+					        cellAlign: "left",
+					        freeScroll: false,
+					        prevNextButtons: arrow,
+					        pageDots: bullet,
+					        groupCells: 2,
+			            }
+			        },
+			        {
+			            breakpoint: 699,
+			            settings: {
+			                destroy: false,
+			                wrapAround: false,
+						    contain: true,
+					        cellAlign: "center",
+					        freeScroll: false,
+					        prevNextButtons: arrow,
+					        pageDots: bullet,
+					        groupCells: 1,
+			            }
+			        }
+			    ]
+			});		
+
+        }
+
+      } 
+
+    });
+  
+    return CollectionListNew;
+  })();
